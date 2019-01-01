@@ -21,6 +21,7 @@ package org.xdat;
  */
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.io.IOException;
@@ -34,6 +35,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListDataListener;
 
 import org.xdat.actionListeners.scatter2DChartSettings.ParallelChartFrameComboModel;
@@ -100,6 +103,9 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		super("xdat   -   Untitled");
+		
+		this.initLookAndFeel();
+		
 		if (!this.checkLicense()) {
 			this.dispose();
 			return;
@@ -593,5 +599,70 @@ public class Main extends JFrame {
 	 */
 	public void unRegisterComboModel(ParallelChartFrameComboModel comboModel) {
 		this.comboModels.remove(comboModel);
+	}
+	
+	/**
+	 * Setting the look and feel.
+	 */
+	private void initLookAndFeel () {
+		try {
+			// Set System L&F
+			String lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			UIManager.setLookAndFeel(lookAndFeel);
+			
+			// Use the same font family.
+			//
+			// In the chinese version of Windows Vista or later,
+			// the default font should be "Microsoft Yahei"
+			if (lookAndFeel == "com.sun.java.swing.plaf.windows.WindowsLookAndFeel") {
+				String keys[] = {
+					"Button.font",
+					"ToggleButton.font",
+					"RadioButton.font",
+					"CheckBox.font",
+					"ColorChooser.font",
+					"ComboBox.font",
+					"Label.font",
+					"List.font",
+					"MenuBar.font",
+					"MenuItem.font",
+					"RadioButtonMenuItem.font",
+					"CheckBoxMenuItem.font",
+					"PopupMenu.font",
+					"OptionPane.font",
+					"Panel.font",
+					"ProgressBar.font",
+					"ScrollPane.font",
+					"Viewport.font",
+					"TabbedPane.font",
+					"Table.font",
+					"TableHeader.font",
+					"TextField.font",
+					"PasswordField.font",
+					"TextArea.font",
+					"TextPane.font",
+					"EditorPane.font",
+					"TitledBorder.font",
+					"ToolBar.font",
+					"ToolTip.font",
+					"Tree.font"
+				};
+
+				Font menuFont = UIManager.getFont("Menu.font");
+
+				for (int i = 0; i < keys.length; ++i) {
+					Font f = UIManager.getFont(keys[i]);
+					UIManager.put(keys[i], menuFont.deriveFont(f.getStyle(), f.getSize()));
+				}
+			}
+		} catch (UnsupportedLookAndFeelException e) {
+			// handle exception
+		} catch (ClassNotFoundException e) {
+			// handle exception
+		} catch (InstantiationException e) {
+			// handle exception
+		} catch (IllegalAccessException e) {
+			// handle exception
+		}
 	}
 }

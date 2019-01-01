@@ -45,7 +45,7 @@ public class TitledSubPanel extends JPanel {
 	public TitledSubPanel(String title) {
 		super();
 		TitledBorder titledBorder = BorderFactory.createTitledBorder(title);
-		titledBorder.setTitleFont(new Font("SansSerif", Font.BOLD, 16));
+		titledBorder.setTitleFont(titledBorder.getTitleFont().deriveFont(Font.BOLD, 16));
 		EmptyBorder emptyBorder = (new EmptyBorder(5, 5, 5, 5));
 
 		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(emptyBorder, titledBorder), emptyBorder));
